@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  stremio-server:
+    image: stremio/server:latest@sha256:f8cbbc4e13cd52d914253e8e35c1c7a65b2bc6fb5aba8ae3648379f604d04218
+    init: true
+    user: "65532:65532"
+    read_only: true
+    cap_drop:
+      - ALL
+    environment:
+      NO_CORS: "1"
+      APP_PATH: "/.stremio-server"
+    volumes:
+      - type: bind
+        source: /mnt/c/Users/pyu/OneDrive/Videos
+        target: /media
+        read_only: true
+      - type: volume
+        source: stremio-data
+        target: /.stremio-server
+      - type: volume
+        source: stremio-tmp
+        target: /tmp
+    ports:
+      - target: 11470
+        published: 11470
+        protocol: tcp
+        mode: ingress
+      - target: 12470
+        published: 12470
+        protocol: tcp
+        mode: ingress
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  stremio-web:
+    image: stremio-web-official:development
+    init: true
+    read_only: true
+    cap_drop:
+      - ALL
+    volumes:
+      - type: tmpfs
+        target: /tmp
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: ingress
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+volumes:
+  stremio-data:
+  stremio-tmp:
