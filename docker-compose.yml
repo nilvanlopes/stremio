@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   stremio-server:
-    image: stremio/server:latest@sha256:3dc145603defba397467b2a2aa2354be2da1f86585d4ab825a70bd72782f2ef4
+    image: stremio/server:latest@sha256:30829e739e6336811830f87c3d725eb5f14169f94f54725c907f42275a3bda27
     init: true
     user: "65532:65532"
     read_only: true
