@@ -58,6 +58,14 @@ services:
         condition: any
         delay: 5s
         max_attempts: 0
+    networks:
+      traefik-local:
+        aliases:
+          - stremio-web
+
+networks:
+  traefik-local:
+    external: true
 
 volumes:
   stremio-data:
